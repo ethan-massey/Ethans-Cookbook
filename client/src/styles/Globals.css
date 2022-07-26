@@ -1,0 +1,158 @@
+/* pt-serif-caption-regular - latin */
+@font-face {
+    font-family: 'PT Serif Caption';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/pt-serif-caption-v17-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('../fonts/pt-serif-caption-v17-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/pt-serif-caption-v17-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/pt-serif-caption-v17-latin-regular.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/pt-serif-caption-v17-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/pt-serif-caption-v17-latin-regular.svg#PTSerifCaption') format('svg'); /* Legacy iOS */
+}
+
+body, head {
+    background-color: #F4EDEA;
+    color: #12263A;
+    font-family: 'PT Serif Caption';
+}
+
+.center-text {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+h4 {
+    color: #415A77;
+}
+
+.contents-title {
+    color: #778DA9;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 1%;
+}
+
+h3 {
+    color: #778DA9;
+}
+
+.recipe-title {
+    color: #778DA9;
+    text-align: center;
+}
+
+a, h1 {
+    color: #415A77;
+}
+
+a:hover {
+    color: #778DA9;
+}
+
+.back-edit-delete-button {
+    text-align: center;
+    display: inline-block;
+    margin: 1%;
+}
+
+.back-button {
+    text-align: center;
+}
+
+.copyright {
+    text-align: center;
+}
+
+.dog-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.btn-addrecipe {
+    background-color: #415A77;
+    color: #F4EDEA;
+    margin-top: 2%;
+    margin-left: 2%;
+    font-size: small;
+}
+
+.btn-addrecipe:hover {
+    background-color: #778DA9;
+    color: #F4EDEA;
+}
+
+.btn-addRecipeInfo {
+    background-color: #415A77;
+    color: #F4EDEA;
+}
+
+.btn-addRecipeInfo:hover {
+    background-color: #778DA9;
+    color: #F4EDEA;
+}
+
+.btn-remove {
+    background-color: #F86D6D;
+    color: #F4EDEA;
+    float:right;
+}
+
+.btn-remove:hover {
+    background-color: #F99494;
+    color: #F4EDEA;
+}
+
+.recipeForm {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.error {
+    color: #F86D6D;
+}
+
+.back-edit-delete-container {
+    text-align: center;
+}
+
+.text404 {
+    text-align: center;
+}
+
+.delete-edit-fake-button {
+    background: none;
+    border: none;
+    color: #415A77;
+}
+
+.delete-edit-fake-button:hover {
+    color: #778DA9;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .dog-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .recipeForm {
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+
+    .center-text {
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+  }
+
+@media screen and (max-device-width: 480px){
+    body{
+        -webkit-text-size-adjust: none;
+    }
+}
