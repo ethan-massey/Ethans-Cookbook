@@ -53,6 +53,20 @@ authRoutes.route('/api/login').post(function (req, res) {
         });
 });
 
+// check a JWT and send response
+authRoutes.route('/api/checkToken').post(function (req, res) {
+    let jwtToken = req.body.token;
+    let verifyResults = verifyToken(jwtToken);
+    if (verifyResults.status === "error"){
+        res.status(401)
+            .send({
+            message: verifyResults.error.message
+            });
+    }else{
+        res.json(verifyResults);
+    }
+});
+
 
 const verifyToken = (token) => {
     try {

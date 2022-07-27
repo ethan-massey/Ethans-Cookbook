@@ -120,7 +120,10 @@ export default function EditRecipeForm() {
     async function submit(recipe) {
         const response = await fetch(`http://localhost:5000/api/update/${params.id.toString()}`, {
             method: "POST",
-            body: JSON.stringify(recipe),
+            body: JSON.stringify({
+                ...recipe,
+                token: localStorage.getItem("EthansRecipeDatabaseUserJWT")
+            }),
             headers: {
             'Content-Type': 'application/json'
             }

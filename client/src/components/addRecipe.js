@@ -100,7 +100,10 @@ export default function AddRecipeForm() {
             headers: {
             "Content-Type": "application/json",
             },
-            body: JSON.stringify(recipe),
+            body: JSON.stringify({
+                ...recipe,
+                token: localStorage.getItem("EthansRecipeDatabaseUserJWT")
+            }),
         })
         .catch(error => {
             window.alert(error);

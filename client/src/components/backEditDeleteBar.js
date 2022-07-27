@@ -15,7 +15,13 @@ export default function BackEditDeleteButtons(props) {
 
     async function deleteRecipe(recipeId) {
         const response = await fetch(`http://localhost:5000/api/${recipeId}`, {
-            method: "DELETE"
+            method: "DELETE",
+            body: JSON.stringify({
+                token: localStorage.getItem("EthansRecipeDatabaseUserJWT")
+            }),
+            headers: {
+            'Content-Type': 'application/json'
+            }
         });
         
         if (!response.ok) {

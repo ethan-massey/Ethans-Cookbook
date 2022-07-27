@@ -28,8 +28,7 @@ const App = () => {
 
   useEffect(() => {
     // check if user is logged in
-    var userToken = JSON.parse(localStorage.getItem("EthansRecipeDatabaseUserJWT"));
-    handleUserSession(userToken, setUserStatus);
+    handleUserSession(setUserStatus);
   
     return;
   }, []);
