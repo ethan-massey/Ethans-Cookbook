@@ -10,30 +10,36 @@ export default function Recipe(props) {
  
  // This method fetches the records from the database.
 useEffect(() => {
-async function getRecipeData() {
-    const response = await fetch(`https://ethans-cookbook.herokuapp.com/api/${process.env.REACT_APP_API_KEY}/recipe/${params.id.toString()}`);
-
-    if (!response.ok) {
-        // const message = `An error occurred: ${response.statusText}`;
-        // window.alert(message);
-        navigate("/404");
-        return;
+    async function getRecipeData() {
+        await fetch(`http://ethans-cookbook.herokuapp.com/api/recipe/${params.id.toString()}`)
+            .then((response) => {
+                if (!response.ok) {
+                    // const message = `An error occurred: ${response.statusText}`;
+                    // window.alert(message);
+                    navigate("/404");
+                    return;
+                }else{
+                    return response.json();
+                }
+            })
+            .then((responseJson) => {
+                setRecipeData(responseJson);
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
-    const recipe = await response.json();
-    setRecipeData(recipe);
-}
+    getRecipeData();
 
-getRecipeData();
-
-return;
+    return;
 }, [recipeData, params, navigate]);
 
  function formatIngredients() {
     if (recipeData.ingredients){
-        return recipeData.ingredients.map((i) => {
+        return recipeData.ingredients.map((i, index) => {
             return (
-                <li key={i.name.toString()}>
+                <li key={i.name.toString() + index.toString()}>
                     <p>{i.name} - {i.quantity}</p>
                 </li>
             )
@@ -43,9 +49,9 @@ return;
 
  function formatSteps() {
     if (recipeData.steps){
-        return recipeData.steps.map((step) => {
+        return recipeData.steps.map((step, index) => {
             return (
-                <li key={step.toString()}>
+                <li key={step.toString() + index.toString()}>
                     <p>{step}</p>
                 </li>
             )

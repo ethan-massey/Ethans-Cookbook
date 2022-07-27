@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
  
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 import RecipeIndex from "./components/recipeIndex";
 import Recipe from "./components/recipe";
@@ -8,7 +8,7 @@ import Header from "./components/header";
 import PageNotFound from "./components/404";
 import AddRecipe from "./components/addRecipe";
 import EditRecipe from "./components/editRecipe";
-import {handleUserAuth} from "./components/userTokenFunctions";
+import {handleUserSession} from "./components/userTokenFunctions";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/Globals.css';
@@ -21,18 +21,19 @@ import './fonts/pt-serif-caption-v17-latin-regular.woff2';
 
 const App = () => {
   const [user, setUser] = useState(false);
+  const location = useLocation();
 
   const setUserStatus = (userStatus) => {
     setUser(userStatus);
   }
 
+  // location dependency - check user token every url change
   useEffect(() => {
     // check if user is logged in
-    var userToken = JSON.parse(localStorage.getItem("EthansRecipeDatabaseUser"));
-    handleUserAuth(userToken, setUserStatus);
-  
+    handleUserSession(setUserStatus);
+
     return;
-  }, []);
+  }, [location]);
 
   return (
     <div>

@@ -3,14 +3,13 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from "react-router-dom";
-import { createNewToken } from './userTokenFunctions';
+import { saveJWTLocalStorage } from './userTokenFunctions';
 
 export default function LoginModal(props) {
   const [userAnswer, setUserAnswer] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const WRONG_ANSWER = "Wrong!"
-  const CORRECT_ANSWER = process.env.REACT_APP_LOGIN_PASS;
 
   const handleAnswerChange = (e) => {
     setUserAnswer(e.target.value);
@@ -18,6 +17,7 @@ export default function LoginModal(props) {
 
   const handleClose = () => {
     props.closeModal();
+    setErrorMessage("");
   }
 
   // actions to happen after successful login
@@ -33,16 +33,41 @@ export default function LoginModal(props) {
     }
   }
 
-  const handleSubmit = () => {
-    // Do user login stuff
-    if(userAnswer.trim() === CORRECT_ANSWER){
-        // put new user token in local storage
-        createNewToken();
-        handleClose();
-        props.setUserStatus(true);
-        handleNextAction();
-    }else{
-        setErrorMessage(WRONG_ANSWER);
+  async function handleSubmit() {
+    const response = await fetch(`http://ethans-cookbook.herokuapp.com/api/login/`, {
+        method: "POST",
+        body: JSON.stringify({"password":userAnswer.trim()}),
+        headers: {
+        'Content-Type': 'application/json'
+        }
+    });
+
+    // Wrong login
+    if (response.status === 401)
+    {
+      setErrorMessage(WRONG_ANSWER);
+      return;
+    }
+    // any other error
+    if (!response.ok)
+    {
+      const message = `An error occurred: ${response.statusText}`;
+      window.alert(message);
+      navigate("/404");
+      return;
+    }
+    // successful login
+    if (response.ok)
+    {
+      response.json().then(json => {
+        if (json.accessToken){
+          saveJWTLocalStorage(json.accessToken);
+          handleClose();
+          props.setUserStatus(true);
+          handleNextAction();
+        }
+      });
+      return;
     }
   }
 

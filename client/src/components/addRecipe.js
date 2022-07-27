@@ -95,12 +95,15 @@ export default function AddRecipeForm() {
     }
 
     async function submit(recipe) {
-        await fetch(`https://ethans-cookbook.herokuapp.com/api/${process.env.REACT_APP_API_KEY}/recipe/add`, {
+        await fetch(`http://ethans-cookbook.herokuapp.com/api/recipe/add`, {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
             },
-            body: JSON.stringify(recipe),
+            body: JSON.stringify({
+                ...recipe,
+                token: localStorage.getItem("EthansRecipeDatabaseUserJWT")
+            }),
         })
         .catch(error => {
             window.alert(error);
