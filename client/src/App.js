@@ -8,7 +8,7 @@ import Header from "./components/header";
 import PageNotFound from "./components/404";
 import AddRecipe from "./components/addRecipe";
 import EditRecipe from "./components/editRecipe";
-import {handleUserAuth} from "./components/userTokenFunctions";
+import {handleUserSession} from "./components/userTokenFunctions";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/Globals.css';
@@ -28,8 +28,8 @@ const App = () => {
 
   useEffect(() => {
     // check if user is logged in
-    var userToken = JSON.parse(localStorage.getItem("EthansRecipeDatabaseUser"));
-    handleUserAuth(userToken, setUserStatus);
+    var userToken = JSON.parse(localStorage.getItem("EthansRecipeDatabaseUserJWT"));
+    handleUserSession(userToken, setUserStatus);
   
     return;
   }, []);

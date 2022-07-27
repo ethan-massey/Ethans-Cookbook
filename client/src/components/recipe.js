@@ -11,7 +11,7 @@ export default function Recipe(props) {
  // This method fetches the records from the database.
 useEffect(() => {
 async function getRecipeData() {
-    const response = await fetch(`https://ethans-cookbook.herokuapp.com/api/${process.env.REACT_APP_API_KEY}/recipe/${params.id.toString()}`);
+    const response = await fetch(`http://localhost:5000/api/recipe/${params.id.toString()}`);
 
     if (!response.ok) {
         // const message = `An error occurred: ${response.statusText}`;

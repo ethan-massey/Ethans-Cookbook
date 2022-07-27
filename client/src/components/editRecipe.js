@@ -23,7 +23,7 @@ export default function EditRecipeForm() {
     
     useEffect(() => {
         async function getRecipeData() {
-            const response = await fetch(`https://ethans-cookbook.herokuapp.com/api/${process.env.REACT_APP_API_KEY}/recipe/${params.id.toString()}`);
+            const response = await fetch(`http://localhost:5000/api/recipe/${params.id.toString()}`);
         
             if (!response.ok) {
                 // const message = `An error occurred: ${response.statusText}`;
@@ -118,7 +118,7 @@ export default function EditRecipeForm() {
     }
 
     async function submit(recipe) {
-        const response = await fetch(`https://ethans-cookbook.herokuapp.com/api/${process.env.REACT_APP_API_KEY}/update/${params.id.toString()}`, {
+        const response = await fetch(`http://localhost:5000/api/update/${params.id.toString()}`, {
             method: "POST",
             body: JSON.stringify(recipe),
             headers: {
