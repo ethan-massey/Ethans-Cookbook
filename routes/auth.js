@@ -60,7 +60,7 @@ authRoutes.route('/api/checkToken').post(function (req, res) {
     if (verifyResults.status === "error"){
         res.status(401)
             .send({
-            message: verifyResults.error.message
+                message: verifyResults.error.message
             });
     }else{
         res.json(verifyResults);

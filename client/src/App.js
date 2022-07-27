@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
  
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 import RecipeIndex from "./components/recipeIndex";
 import Recipe from "./components/recipe";
@@ -21,17 +21,19 @@ import './fonts/pt-serif-caption-v17-latin-regular.woff2';
 
 const App = () => {
   const [user, setUser] = useState(false);
+  const location = useLocation();
 
   const setUserStatus = (userStatus) => {
     setUser(userStatus);
   }
 
+  // location dependency - check user token every url change
   useEffect(() => {
     // check if user is logged in
     handleUserSession(setUserStatus);
-  
+
     return;
-  }, []);
+  }, [location]);
 
   return (
     <div>
