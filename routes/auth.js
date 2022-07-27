@@ -13,7 +13,7 @@ const dbo = require("../db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
-const JWT_EXPIRATION_SETTING = 60;//"1d";
+const JWT_EXPIRATION_SETTING = "1d";
 
 // Login and issue JWT token if successful
 authRoutes.route('/api/login').post(function (req, res) {
