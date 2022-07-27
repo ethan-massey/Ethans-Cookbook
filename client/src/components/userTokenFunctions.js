@@ -17,7 +17,9 @@ export function handleUserSession(setUserStatus){
                 headers: {
                 'Content-Type': 'application/json'
                 }
-            });
+            }).catch(err => {
+                throw err;
+            })
 
             // Bad token
             if (response.status === 401)
@@ -25,6 +27,7 @@ export function handleUserSession(setUserStatus){
                 setUserStatus(false);
                 // delete token from localstorage
                 localStorage.removeItem(USER_TOKEN_KEY);
+                // show login modal
                 return;
             }
             // any other error
