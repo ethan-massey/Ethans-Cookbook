@@ -33,7 +33,7 @@ useEffect(() => {
     getRecipeData();
 
     return;
-}, [recipeData, params, navigate]);
+}, [params, navigate]);
 
  function formatIngredients() {
     if (recipeData.ingredients){
