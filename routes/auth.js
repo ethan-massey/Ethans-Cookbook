@@ -19,6 +19,14 @@ const JWT_EXPIRATION_SETTING = "1d";
 authRoutes.route('/api/login').post(function (req, res) {
     let db_connect = dbo.getDb(); 
     let myquery = { user: 'admin' };
+    // check to see if request contains proper body fields
+    if (! req.body.hasOwnProperty('password')){
+        return res.status(400)
+            .send({
+                accessToken: null,
+                message: "Malformed request body from client. Body must include 'password' field."
+            });
+    }
     var submitted_plaintext = req.body.password;
     // get correct hash from database
     db_connect
@@ -32,8 +40,8 @@ authRoutes.route('/api/login').post(function (req, res) {
             if (!passwordIsValid) {
                 return res.status(401)
                     .send({
-                    accessToken: null,
-                    message: "Invalid Password!"
+                        accessToken: null,
+                        message: "Invalid Password!"
                     });
             }else{
                 //signing token with user id
