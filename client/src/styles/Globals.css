@@ -72,17 +72,14 @@ a:hover {
     width: 50%;
 }
 
-.btn-addrecipe {
+.btn {
     background-color: #415A77;
     color: #F4EDEA;
-    margin-top: 2%;
-    margin-left: 2%;
-    font-size: small;
 }
 
-.btn-addrecipe:hover {
-    background-color: #778DA9;
-    color: #F4EDEA;
+.addrecipe {
+    margin-top: 2%;
+    margin-left: 2%;
 }
 
 .btn-addRecipeInfo {
