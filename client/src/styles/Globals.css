@@ -72,38 +72,35 @@ a:hover {
     width: 50%;
 }
 
-.btn-addrecipe {
+.btn {
     background-color: #415A77;
     color: #F4EDEA;
-    margin-top: 2%;
-    margin-left: 2%;
-    font-size: small;
 }
 
-.btn-addrecipe:hover {
-    background-color: #778DA9;
-    color: #F4EDEA;
+.addrecipe {
+    margin-top: 2%;
+    margin-left: 2%;
 }
 
 .btn-addRecipeInfo {
-    background-color: #415A77;
-    color: #F4EDEA;
+    background-color: #415A77 !important;
+    color: #F4EDEA !important;
 }
 
 .btn-addRecipeInfo:hover {
-    background-color: #778DA9;
-    color: #F4EDEA;
+    background-color: #778DA9 !important;
+    color: #F4EDEA !important;
 }
 
 .btn-remove {
-    background-color: #F86D6D;
-    color: #F4EDEA;
+    background-color: #F86D6D !important;
+    color: #F4EDEA !important;
     float:right;
 }
 
 .btn-remove:hover {
-    background-color: #F99494;
-    color: #F4EDEA;
+    background-color: #F99494 !important;
+    color: #F4EDEA !important;
 }
 
 .recipeForm {

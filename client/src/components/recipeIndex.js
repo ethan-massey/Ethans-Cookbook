@@ -60,16 +60,20 @@ export default function RecipeList(props) {
      <ul>
         {recipeList()}
      </ul>
-     <Button variant="addrecipe" 
-        onClick={() => {
-          if(props.userStatus){
-            navigate('/add');
-          }else{
-            setShowLoginModal(true);
-          }
-        }}
-        >Add Recipe
-     </Button>
+     <div className="addrecipe">
+        <Button
+          variant="addRecipeInfo"
+          onClick={() => {
+            if (props.userStatus) {
+              navigate("/add");
+            } else {
+              setShowLoginModal(true);
+            }
+          }}
+        >
+          Add Recipe
+        </Button>
+      </div>
      <LoginModal show={showLoginModal} closeModal={closeLoginModal} userStatus={props.userStatus} setUserStatus={props.setUserStatus} nextAction={{action: 'add'}}/>
    </div>
  );
