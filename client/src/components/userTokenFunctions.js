@@ -9,7 +9,7 @@ export function handleUserSession(setUserStatus){
     }else{
         // token found in localstorage, but we need to validate it
         async function checkToken() {
-            const response = await fetch(`http://localhost:5000/api/checkToken`, {
+            const response = await fetch(`https://ethans-cookbook.herokuapp.com/api/checkToken`, {
                 method: "POST",
                 body: JSON.stringify({
                     "token": userToken
