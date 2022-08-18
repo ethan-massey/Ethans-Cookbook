@@ -103,6 +103,16 @@ a:hover {
     color: #F4EDEA !important;
 }
 
+.btn-submit {
+    background-color: #0c5ce4 !important;
+    color: #F4EDEA !important;
+}
+
+.btn-submit:hover {
+    background-color: #4c84e4 !important;
+    color: #F4EDEA !important;
+}
+
 .recipeForm {
     margin-left: 15%;
     margin-right: 15%;
