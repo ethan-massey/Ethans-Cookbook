@@ -24,7 +24,7 @@ export default function EditRecipeForm() {
   useEffect(() => {
     async function getRecipeData() {
       const response = await fetch(
-        `https://ethans-cookbook.herokuapp.com/api/recipe/${params.id.toString()}`
+        `http://localhost:5000/api/recipe/${params.id.toString()}`
       );
 
       if (!response.ok) {
@@ -129,7 +129,7 @@ export default function EditRecipeForm() {
 
   async function submit(recipe) {
     const response = await fetch(
-      `https://ethans-cookbook.herokuapp.com/api/update/${params.id.toString()}`,
+      `http://localhost:5000/api/update/${params.id.toString()}`,
       {
         method: "POST",
         body: JSON.stringify({
