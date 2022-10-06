@@ -67,11 +67,10 @@ authRoutes.route('/api/checkToken').post(function (req, res) {
     let verifyResults = verifyToken(jwtToken);
     if (verifyResults.status === "error"){
         res.status(401)
-            .send({
-                message: verifyResults.error.message
-            });
+            .send(verifyResults);
     }else{
-        res.json(verifyResults);
+        res.status(200)
+            .send(verifyResults)
     }
 });
 
