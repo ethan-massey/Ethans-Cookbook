@@ -17,11 +17,11 @@ export default function BackEditDeleteButtons(props) {
 
   async function deleteRecipe(recipeId) {
     const response = await fetch(
-      `http://localhost:5000/api/${recipeId}`,
+      `https://ethans-cookbook.herokuapp.com/api/${recipeId}`,
       {
         method: "DELETE",
         body: JSON.stringify({
-          sessionID: sessionStorage.getItem(
+          sessionID: localStorage.getItem(
             "EthansRecipeDatabaseUserSessionID"
           ),
         }),

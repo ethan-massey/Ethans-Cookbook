@@ -35,7 +35,7 @@ export default function LoginModal(props) {
 
   async function handleSubmit() {
     const response = await fetch(
-      `http://localhost:5000/api/login/`,
+      `https://ethans-cookbook.herokuapp.com/api/login/`,
       {
         method: "POST",
         body: JSON.stringify({ password: userAnswer.trim() }),
