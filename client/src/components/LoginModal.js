@@ -34,13 +34,16 @@ export default function LoginModal(props) {
   };
 
   async function handleSubmit() {
-    const response = await fetch(`http://localhost:5000/api/login/`, {
-      method: "POST",
-      body: JSON.stringify({ password: userAnswer.trim() }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `https://ethans-cookbook.herokuapp.com/api/login/`,
+      {
+        method: "POST",
+        body: JSON.stringify({ password: userAnswer.trim() }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     // Wrong login
     if (response.status === 401) {

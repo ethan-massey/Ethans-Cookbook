@@ -8,15 +8,18 @@ export function handleUserSession(setUserStatus) {
   } else {
     // sessionID found in sessionStorage, but we need to validate it
     async function checkSession() {
-      const response = await fetch(`http://localhost:5000/api/checkSession`, {
-        method: "POST",
-        body: JSON.stringify({
-          sessionID: userSessionID,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).catch((err) => {
+      const response = await fetch(
+        `https://ethans-cookbook.herokuapp.com/api/checkSession`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            sessionID: userSessionID,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      ).catch((err) => {
         throw err;
       });
       // any error
