@@ -16,15 +16,20 @@ export default function BackEditDeleteButtons(props) {
   };
 
   async function deleteRecipe(recipeId) {
-    const response = await fetch(`http://localhost:5000/api/${recipeId}`, {
-      method: "DELETE",
-      body: JSON.stringify({
-        token: localStorage.getItem("EthansRecipeDatabaseUserJWT"),
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `https://ethans-cookbook.herokuapp.com/api/${recipeId}`,
+      {
+        method: "DELETE",
+        body: JSON.stringify({
+          sessionID: sessionStorage.getItem(
+            "EthansRecipeDatabaseUserSessionID"
+          ),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!response.ok) {
       // const message = `An error occurred: ${response.statusText}`;

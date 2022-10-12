@@ -103,14 +103,14 @@ export default function AddRecipeForm() {
   };
 
   async function submit(recipe) {
-    await fetch(`http://localhost:5000/api/recipe/add`, {
+    await fetch(`https://ethans-cookbook.herokuapp.com/api/recipe/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         ...recipe,
-        token: localStorage.getItem("EthansRecipeDatabaseUserJWT"),
+        sessionID: sessionStorage.getItem("EthansRecipeDatabaseUserSessionID"),
       }),
     }).catch((error) => {
       window.alert(error);
