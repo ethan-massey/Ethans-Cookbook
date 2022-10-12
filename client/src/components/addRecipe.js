@@ -110,7 +110,7 @@ export default function AddRecipeForm() {
       },
       body: JSON.stringify({
         ...recipe,
-        token: localStorage.getItem("EthansRecipeDatabaseUserJWT"),
+        sessionID: sessionStorage.getItem("EthansRecipeDatabaseUserSessionID"),
       }),
     }).catch((error) => {
       window.alert(error);

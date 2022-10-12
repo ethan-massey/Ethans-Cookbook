@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require('uuid');
  
 // recipeRoutes is an instance of the express router.
 // We use it to define our routes.
@@ -10,12 +10,7 @@ const authRoutes = express.Router();
 // This will help us connect to the database
 const dbo = require("../db/conn");
 
-// This help convert the id from string to ObjectId for the _id.
-const ObjectId = require("mongodb").ObjectId;
-
-const JWT_EXPIRATION_SETTING = "1d";
-
-// Login and issue JWT token if successful
+// Login and issue new session if successful
 authRoutes.route('/api/login').post(function (req, res) {
     let db_connect = dbo.getDb(); 
     let myquery = { user: 'admin' };
@@ -23,7 +18,6 @@ authRoutes.route('/api/login').post(function (req, res) {
     if (! req.body.hasOwnProperty('password')){
         return res.status(400)
             .send({
-                accessToken: null,
                 message: "Malformed request body from client. Body must include 'password' field."
             });
     }
@@ -40,55 +34,87 @@ authRoutes.route('/api/login').post(function (req, res) {
             if (!passwordIsValid) {
                 return res.status(401)
                     .send({
-                        accessToken: null,
                         message: "Invalid Password!"
                     });
             }else{
-                //signing token with user id
-                var token = jwt.sign({
-                    type: 'API token'
-                }, process.env.API_SECRET, {
-                    expiresIn: JWT_EXPIRATION_SETTING
+                // create session
+                let session = {
+                    sessionID: uuidv4(),
+                    // expDate = now + 24 hours
+                    expDate: new Date(new Date().getTime() + 60 * 60 * 24 * 1000)
+                };
+                // put in db
+                db_connect.collection("sessions").insertOne(session, function (err, res) {
+                    if (err) throw err;
                 });
 
-                //responding to client request with user profile success message and  access token .
+                // send success and sessionID to client
                 res.status(200)
                     .send({
+                        status: 'success',
                         message: "Login successful",
-                        accessToken: token,
+                        session: session
                     });
             }
         });
 });
 
-// check a JWT and send response
-authRoutes.route('/api/checkToken').post(function (req, res) {
-    let jwtToken = req.body.token;
-    let verifyResults = verifyToken(jwtToken);
-    if (verifyResults.status === "error"){
-        res.status(401)
-            .send(verifyResults);
-    }else{
-        res.status(200)
-            .send(verifyResults)
-    }
+// check a sessionID to see if still valid
+authRoutes.route('/api/checkSession').post(function (req, res) {
+    let db_connect = dbo.getDb();
+    let sessionID = req.body.sessionID;
+
+    verifySession(sessionID, function(result){
+        // if flagged for deletion, delete
+        if (result.flagForDeleteID){
+            let myquery = { sessionID: result.flagForDeleteID };
+            db_connect.collection("sessions").deleteOne(myquery, function (err, res) {
+              if (err) throw err;
+            });
+        }
+        // send response to client
+        res.status(result.statusCode).send(result);
+    });
 });
 
-
-const verifyToken = (token) => {
-    try {
-        var decoded = jwt.verify(token, process.env.API_SECRET);
-        return {
-            "status": "success",
-            "decoded": decoded
+// given a sessionID, checks in db for that session
+// hands result to callback to be used by caller of this function
+const verifySession = (sessionID, fn) => {
+    let db_connect = dbo.getDb();
+    let myquery = { 'sessionID': sessionID };
+    db_connect.collection('sessions').findOne(myquery)
+    .then(function(doc) {
+        var result = {
+            status: '',
+            message: '',
+            flagForDeleteID: null
         };
-    } catch(err) {
-        return {
-            "status": "error",
-            "error": err
+        // no session found in db
+        if (!doc) {
+            result.status = 'not-found';
+            result.statusCode = 404;
+            result.message = `No session found with ID ${sessionID}`;
+        } else {
+            let expDate = new Date(doc.expDate);
+            let now = new Date();
+            // if session expired
+            if (expDate < now){
+                result.status = 'session-expired';
+                result.statusCode = 401;
+                result.message = 'Session expired.';
+                result.session = doc;
+                result.flagForDeleteID = doc.sessionID;
+            // otherwise, successful
+            } else {
+                result.status = 'success';
+                result.statusCode = 200;
+                result.message = 'Session found.';
+                result.session = doc;
+            }
         }
-    }
+        fn(result);
+    });
 }
 
- 
-module.exports = {authRoutes, verifyToken};
+
+module.exports = {authRoutes, verifySession};
