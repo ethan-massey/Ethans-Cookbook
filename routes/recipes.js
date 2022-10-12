@@ -41,75 +41,70 @@ recipeRoutes.route('/api/recipe/:id').get(function (req, res) {
 // This section will help you create a new recipe.
 recipeRoutes.route('/api/recipe/add').post(function (req, response) {
   let db_connect = dbo.getDb();
-  let jwtToken = req.body.token;
-  let verifyResult = auth.verifyToken(jwtToken);
-  // if error sent back from verify
-  if (verifyResult.status === "error"){
-    response.status(401)
-      .send({
-        message: verifyResult.error.message
+  let sessionID = req.body.sessionID;
+  auth.verifySession(sessionID, function(result){
+    if (result.statusCode !== 200){
+      response.status(result.statusCode).send(result);
+    }else {
+      // verification success
+      let recipe = {
+        name: req.body.name,
+        ingredients: req.body.ingredients,
+        steps: req.body.steps,
+      };
+      db_connect.collection("recipes").insertOne(recipe, function (err, res) {
+        if (err) throw err;
+        response.json(res);
       });
-  // verification success
-  }else{
-    let recipe = {
-      name: req.body.name,
-      ingredients: req.body.ingredients,
-      steps: req.body.steps,
-    };
-    db_connect.collection("recipes").insertOne(recipe, function (err, res) {
-      if (err) throw err;
-      response.json(res);
-    });
-  }
+    }
+  });
 });
  
 // This section will help you update a recipe by id.
 recipeRoutes.route('/api/update/:id').post(function (req, response) {
   let db_connect = dbo.getDb(); 
-  let jwtToken = req.body.token;
-  let verifyResult = auth.verifyToken(jwtToken);
-  // if error sent back from verify
-  if (verifyResult.status === "error"){
-    response.status(401)
-      .send({
-        message: verifyResult.error.message
+  let sessionID = req.body.sessionID;
+
+  auth.verifySession(sessionID, function(result){
+    if (result.statusCode !== 200){
+      response.status(result.statusCode).send(result);
+
+    } else {
+      // verification success
+      let myquery = { _id: ObjectId(req.params.id) }; 
+      let newvalues = {
+        $set: {     
+          name: req.body.name,    
+          ingredients: req.body.ingredients,     
+          steps: req.body.steps,   
+        }
+      };
+      db_connect.collection("recipes").updateOne(myquery, newvalues, function(err, res){
+        if (err) throw err;
+        response.json(res);
       });
-  // verification success
-  }else{
-    let myquery = { _id: ObjectId(req.params.id) }; 
-    let newvalues = {
-      $set: {     
-        name: req.body.name,    
-        ingredients: req.body.ingredients,     
-        steps: req.body.steps,   
-      }
-    };
-    db_connect.collection("recipes").updateOne(myquery, newvalues, function(err, res){
-      if (err) throw err;
-      response.json(res);
-    });
-  }
+    }
+  });
 });
  
 // This section will help you delete a recipe
 recipeRoutes.route('/api/:id').delete((req, response) => {
   let db_connect = dbo.getDb();
-  let jwtToken = req.body.token;
-  let verifyResult = auth.verifyToken(jwtToken);
-  // if error sent back from verify
-  if (verifyResult.status === "error"){
-    response.status(401)
-      .send({
-        message: verifyResult.error.message
+  let sessionID = req.body.sessionID;
+
+  auth.verifySession(sessionID, function(result){
+    if (result.statusCode !== 200) {
+      response.status(result.statusCode).send(result);
+
+    } else {
+      // verification success
+      let myquery = { _id: ObjectId( req.params.id )};
+      db_connect.collection("recipes").deleteOne(myquery, function (err, res) {
+        if (err) throw err;
+        response.json(res);
       });
-  // verification success
-  }else{
-    let myquery = { _id: ObjectId( req.params.id )};
-    db_connect.collection("recipes").deleteOne(myquery, function (err, res) {
-      if (err) throw err;
-      response.json(res);
-    });
-  }
+    }
+  });
 });
 
 module.exports = recipeRoutes;

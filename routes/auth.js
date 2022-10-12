@@ -63,13 +63,7 @@ authRoutes.route('/api/login').post(function (req, res) {
 authRoutes.route('/api/checkSession').post(function (req, res) {
     let sessionID = req.body.sessionID;
     verifySession(sessionID, function(result){
-        if (result.status === 'success'){
-            res.status(200).send(result);
-        }else if (result.status === 'session-expired'){
-            res.status(401).send(result);
-        }else if (result.status === 'not-found'){
-            res.status(404).send(result);
-        }
+        res.status(result.statusCode).send(result);
     });
 });
 
@@ -87,18 +81,21 @@ const verifySession = (sessionID, fn) => {
         // no session found in db
         if (!doc) {
             result.status = 'not-found';
-            result.message = `No sessions found with ID ${sessionID}`;
+            result.statusCode = 404;
+            result.message = `No session found with ID ${sessionID}`;
         } else {
             let expDate = new Date(doc.expDate);
             let now = new Date();
             // if session expired
             if (expDate < now){
                 result.status = 'session-expired';
+                result.statusCode = 401;
                 result.message = 'Session expired.';
                 result.session = doc;
             // otherwise, successful
             } else {
                 result.status = 'success';
+                result.statusCode = 200;
                 result.message = 'Session found.';
                 result.session = doc;
             }
