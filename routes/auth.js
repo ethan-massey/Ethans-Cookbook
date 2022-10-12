@@ -61,8 +61,18 @@ authRoutes.route('/api/login').post(function (req, res) {
 
 // check a sessionID to see if still valid
 authRoutes.route('/api/checkSession').post(function (req, res) {
+    let db_connect = dbo.getDb();
     let sessionID = req.body.sessionID;
+
     verifySession(sessionID, function(result){
+        // if flagged for deletion, delete
+        if (result.flagForDeleteID){
+            let myquery = { sessionID: result.flagForDeleteID };
+            db_connect.collection("sessions").deleteOne(myquery, function (err, res) {
+              if (err) throw err;
+            });
+        }
+        // send response to client
         res.status(result.statusCode).send(result);
     });
 });
@@ -76,7 +86,8 @@ const verifySession = (sessionID, fn) => {
     .then(function(doc) {
         var result = {
             status: '',
-            message: ''
+            message: '',
+            flagForDeleteID: null
         };
         // no session found in db
         if (!doc) {
@@ -92,6 +103,7 @@ const verifySession = (sessionID, fn) => {
                 result.statusCode = 401;
                 result.message = 'Session expired.';
                 result.session = doc;
+                result.flagForDeleteID = doc.sessionID;
             // otherwise, successful
             } else {
                 result.status = 'success';
