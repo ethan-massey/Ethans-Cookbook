@@ -1,17 +1,17 @@
-const USER_TOKEN_KEY = "EthansRecipeDatabaseUserJWT";
+const USER_SESSION_KEY = "EthansRecipeDatabaseUserSessionID";
 
 export function handleUserSession(setUserStatus) {
-  var userToken = localStorage.getItem(USER_TOKEN_KEY);
-  // if nothing found in localstorage
-  if (!userToken) {
+  var userSessionID = sessionStorage.getItem(USER_SESSION_KEY);
+  // if nothing found in sessionStorage
+  if (!userSessionID) {
     setUserStatus(false);
   } else {
-    // token found in localstorage, but we need to validate it
-    async function checkToken() {
-      const response = await fetch(`http://localhost:5000/api/checkToken`, {
+    // sessionID found in sessionStorage, but we need to validate it
+    async function checkSession() {
+      const response = await fetch(`http://localhost:5000/api/checkSession`, {
         method: "POST",
         body: JSON.stringify({
-          token: userToken,
+          sessionID: userSessionID,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -19,32 +19,26 @@ export function handleUserSession(setUserStatus) {
       }).catch((err) => {
         throw err;
       });
-
-      // Bad token
-      if (response.status === 401) {
+      // any error
+      if (!response.ok) {
         setUserStatus(false);
-        // delete token from localstorage
-        localStorage.removeItem(USER_TOKEN_KEY);
+        // delete sessionID from sessionstorage
+        sessionStorage.removeItem(USER_SESSION_KEY);
         // show login modal
         return;
       }
-      // any other error
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        window.alert(message);
-        return;
-      }
-      // good token
+      // good sessionID
       if (response.ok) {
         setUserStatus(true);
         return;
       }
     }
 
-    checkToken();
+    checkSession();
   }
 }
 
-export function saveJWTLocalStorage(token) {
-  localStorage.setItem(USER_TOKEN_KEY, token);
+export function saveSessionToStorage(sessionID) {
+  console.log(sessionStorage);
+  sessionStorage.setItem(USER_SESSION_KEY, sessionID);
 }

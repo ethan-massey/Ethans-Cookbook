@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
-import { saveJWTLocalStorage } from "./userTokenFunctions";
+import { saveSessionToStorage } from "./userTokenFunctions";
 
 export default function LoginModal(props) {
   const [userAnswer, setUserAnswer] = useState("");
@@ -57,8 +57,8 @@ export default function LoginModal(props) {
     // successful login
     if (response.ok) {
       response.json().then((json) => {
-        if (json.accessToken) {
-          saveJWTLocalStorage(json.accessToken);
+        if (json.session.sessionID) {
+          saveSessionToStorage(json.session.sessionID);
           handleClose();
           props.setUserStatus(true);
           handleNextAction();
