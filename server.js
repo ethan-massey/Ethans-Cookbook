@@ -12,6 +12,10 @@ app.use(auth.authRoutes);
 // get driver connection
 const dbo = require("./db/conn");
 
+// Clean old sessions from db
+const dbSessionClean = require('./db-session-clean');
+dbSessionClean.initCleanSessions();
+
 // ---------------- Added for production ---------------------------------//
 // Accessing the path module
 const path = require("path");

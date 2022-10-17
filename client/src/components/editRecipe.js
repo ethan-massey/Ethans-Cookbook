@@ -134,9 +134,7 @@ export default function EditRecipeForm() {
         method: "POST",
         body: JSON.stringify({
           ...recipe,
-          sessionID: localStorage.getItem(
-            "EthansRecipeDatabaseUserSessionID"
-          ),
+          sessionID: localStorage.getItem("EthansRecipeDatabaseUserSessionID"),
         }),
         headers: {
           "Content-Type": "application/json",
