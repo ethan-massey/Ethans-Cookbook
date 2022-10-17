@@ -21,9 +21,7 @@ export default function BackEditDeleteButtons(props) {
       {
         method: "DELETE",
         body: JSON.stringify({
-          sessionID: localStorage.getItem(
-            "EthansRecipeDatabaseUserSessionID"
-          ),
+          sessionID: localStorage.getItem("EthansRecipeDatabaseUserSessionID"),
         }),
         headers: {
           "Content-Type": "application/json",
