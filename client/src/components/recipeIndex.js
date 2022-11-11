@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import LoginModal from "./LoginModal";
+import { RECIPE_DATABASE_TITLE } from '../constants';
 
 export default function RecipeList(props) {
   const [recipes, setRecipes] = useState([]);
@@ -26,6 +27,7 @@ export default function RecipeList(props) {
     }
 
     getRecipes();
+    document.title = RECIPE_DATABASE_TITLE;
 
     return;
   }, [recipes.length]);

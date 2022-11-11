@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BackEditDeleteButtons from "./backEditDeleteBar";
+import { RECIPE_DATABASE_TITLE } from "../constants";
 
 export default function Recipe(props) {
   const [recipeData, setRecipeData] = useState({});
@@ -26,6 +27,8 @@ export default function Recipe(props) {
         })
         .then((responseJson) => {
           setRecipeData(responseJson);
+          // Set web title
+          document.title = RECIPE_DATABASE_TITLE + ' - ' + responseJson.name;
         })
         .catch((err) => {
           console.log(err);
