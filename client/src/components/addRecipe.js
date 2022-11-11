@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import BackButton from "./backButton";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { RECIPE_DATABASE_TITLE } from "../constants";
 
 // Grid components
 import Col from "react-bootstrap/Col";
@@ -138,6 +139,7 @@ export default function AddRecipeForm() {
 
   return (
     <div className="recipeForm">
+      {document.title = RECIPE_DATABASE_TITLE + ' - New Recipe'}
       <h3 className="recipe-title">New Recipe</h3>
       <Container>
         <Form>

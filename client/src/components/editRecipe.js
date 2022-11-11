@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import BackButton from "./backButton";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
+import { RECIPE_DATABASE_TITLE } from "../constants";
 
 // Grid components
 import Col from "react-bootstrap/Col";
@@ -38,6 +39,7 @@ export default function EditRecipeForm() {
       setName(recipe.name);
       setIngredients(recipe.ingredients);
       setSteps(recipe.steps);
+      document.title = RECIPE_DATABASE_TITLE + ' - Edit ' + recipe.name;
     }
 
     getRecipeData();
