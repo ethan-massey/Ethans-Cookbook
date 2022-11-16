@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import BackButton from "./backButton";
 import { FaPlus, FaMinus } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { RECIPE_DATABASE_TITLE } from "../constants";
 
 // Grid components
@@ -13,6 +13,7 @@ import Row from "react-bootstrap/Row";
 
 export default function AddRecipeForm() {
   const navigate = useNavigate();
+  const params = useParams();
 
   // Change labels based on screen size
   const screenWidth = window.innerWidth;
@@ -32,6 +33,11 @@ export default function AddRecipeForm() {
   const [errorText, setErrorText] = useState("");
 
   const ERROR_EMPTY_FIELDS = "Please fill in or remove empty fields.";
+
+  useEffect(() => {
+    document.title = RECIPE_DATABASE_TITLE + ' - New Recipe';
+
+  }, [params, navigate]);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -139,7 +145,6 @@ export default function AddRecipeForm() {
 
   return (
     <div className="recipeForm">
-      {document.title = RECIPE_DATABASE_TITLE + ' - New Recipe'}
       <h3 className="recipe-title">New Recipe</h3>
       <Container>
         <Form>
