@@ -110,7 +110,7 @@ export default function AddRecipeForm() {
   };
 
   async function submit(recipe) {
-    await fetch(`http://ethans-cookbook.herokuapp.com/api/recipe/add`, {
+    await fetch(`https://ethans-cookbook.herokuapp.com/api/recipe/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
