@@ -9,7 +9,7 @@ export function handleUserSession(setUserStatus) {
     // sessionID found in localStorage, but we need to validate it
     async function checkSession() {
       const response = await fetch(
-        `http://localhost:5000/api/checkSession`,
+        `http://ethans-cookbook.herokuapp.com/api/checkSession`,
         {
           method: "POST",
           body: JSON.stringify({

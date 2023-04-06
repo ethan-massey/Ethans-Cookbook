@@ -13,7 +13,7 @@ export default function RecipeList(props) {
   useEffect(() => {
     async function getRecipes() {
       const response = await fetch(
-        `http://localhost:5000/api/recipe/`
+        `http://ethans-cookbook.herokuapp.com/api/recipe/`
       );
 
       if (!response.ok) {

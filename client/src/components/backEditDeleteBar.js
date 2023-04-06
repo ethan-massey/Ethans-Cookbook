@@ -17,7 +17,7 @@ export default function BackEditDeleteButtons(props) {
 
   async function deleteRecipe(recipeId) {
     const response = await fetch(
-      `http://localhost:5000/api/${recipeId}`,
+      `http://ethans-cookbook.herokuapp.com/api/${recipeId}`,
       {
         method: "DELETE",
         body: JSON.stringify({
